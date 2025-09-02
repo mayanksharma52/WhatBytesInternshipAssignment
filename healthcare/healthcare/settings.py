@@ -1,10 +1,14 @@
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0dqkf7xx^#f)az&vlj*(ivwp8bfpvht5a-u0w&$os-$&@-=*q1'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-0dqkf7xx^#f)az&vlj*(ivwp8bfpvht5a-u0w&$os-$&@-=*q1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -22,9 +26,12 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',       # Django REST Framework
+    'rest_framework_simplejwt',  # JWT authentication
 
     # Your apps
     'users',                # Users app
+    'patients',             # Patients app
+    'doctors',              # Doctors app
 ]
 
 MIDDLEWARE = [
@@ -61,11 +68,11 @@ WSGI_APPLICATION = 'healthcare.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'healthcare_db',
-        'USER': 'mayanksharma',
-        'PASSWORD': '',   # Agar password hai to waha daalo
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('DB_NAME', 'healthcare_db'),
+        'USER': os.environ.get('DB_USER', 'mayanksharma'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
